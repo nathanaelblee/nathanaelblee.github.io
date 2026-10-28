@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acoustic Measurement & Auralization Toolkit · Nate Lee</title>
+<meta name="description" content="A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.">
+<meta property="og:title" content="Acoustic Measurement & Auralization Toolkit · Nate Lee">
+<meta property="og:description" content="A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Nate Lee</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+  <div class="article-head">
+    <a class="back" href="../index.html#work">← All work</a>
+    <h1>Acoustic Measurement &amp; Auralization Toolkit</h1>
+    <p class="subtitle">A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.</p>
+    <dl class="facts"><div><dt>Role</dt><dd>Developer - Final Project for Computer Music Fundamentals</dd></div><div><dt>Advisor</dt><dd>Dr. Ronald Smith</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">MaxMSP (HISS Tools)</span><span class="tag">MATLAB</span></div></dd></div><div><dt>Timeline</dt><dd>Nov 2025 - Jan 2026</dd></div></dl>
+    <figure class="hero-fig"><img src="../images/acoustic-measurement-toolkit/01.webp" alt="IR Capture UI" width="1600" height="1232" decoding="async"><figcaption>IR Capture UI</figcaption></figure>
+  </div>
+</div>
+<article class="prose">
+<h2>Problem</h2>
+<p>Architectural acoustics relies on the ability to measure how a room responds to sound. The Room Impulse Response (IR), the acoustic fingerprint of a space, tells us everything about a room&#x27;s reflections, absorption, and decay. From the IR, we can derive metrics like reverberation time and speech clarity that determine whether a room is suitable for concerts, lectures, or conversation.</p>
+<p>Capturing a high-quality IR and extracting useful acoustic data from it requires a methodical chain of steps: generating a test signal, recording the room&#x27;s response, deconvolving the recording to isolate the IR, filtering into octave bands, computing energy decay curves in each frequency band, and fitting regression lines to extract standardized metrics.</p>
+<p>I wanted to build the entire pipeline from scratch, from the signal generation through analysis, to develop a deeper understanding of how room acoustic measurements actually work, and to create a tool I could use for real measurements of performance spaces.</p>
+<h2>Method</h2>
+<p>The system has two components: a MaxMSP application that handles measurement (signal generation, IR capture, and auralization), and a MATLAB script that processes captured IRs and computes acoustic metrics. Both are single, self-contained files.</p>
+<figure><img src="../images/acoustic-measurement-toolkit/02.webp" alt="Full signal chain patch in MaxMSP" width="1600" height="776" loading="lazy" decoding="async"><figcaption>Full signal chain patch in MaxMSP</figcaption></figure>
+<h3>Signal Generation</h3>
+<p>Traditional acoustic measurements used impulsive sounds like balloon pops. These are loud but spectrally uncontrolled. Instead, I used a generated Exponential Sine Sweep (ESS), a tone that sweeps from 20 Hz to 20 kHz over 10 seconds. The exponential (logarithmic) sweep spends equal time in every octave, which gives more energy into the low frequencies where room modes are hardest to excite. This yields a far superior signal-to-noise ratio (SNR) compared to impulsive methods.</p>
+<p>The sweep is generated using the irsweeps~ object from the HISS Tools library (Huddersfield Impulse Response Toolbox).</p>
+<h3>Capture and Deconvolution</h3>
+<p>The sweep plays through the source into the room while the measurement microphone simultaneously records the room&#x27;s response into a 15-second buffer (the extra 5 seconds captures the full reverb tail after the sweep ends). The irextract~ object then performs deconvolution, which effectively divides the recorded signal by the original sweep in the frequency domain, which mathematically isolates the room&#x27;s impulse response. The @bandlimit 1 argument restricts the operation to the 20 Hz–20 kHz range, preventing division-by-zero artifacts at DC.</p>
+<h3>Latency Correction</h3>
+<p>The raw deconvolved IR contains a gap of silence at the beginning, which is the time-of-flight latency from speaker to microphone. The irtrimnorm~ object automates the cleanup: using a 2 ms integration window, it scans for the moment energy exceeds -30 dB, trims everything before that point (shifting the direct sound arrival to sample 0), crops the tail at -60 dB, and normalizes the output.</p>
+<h3>Real-Time Auralization</h3>
+<p>Once the IR is captured and cleaned, it&#x27;s loaded into multiconvolve~ operating in short mode, a non-uniform partitioned convolution algorithm. Standard convolution would introduce a processing delay equal to the full length of the IR, making real-time listening impossible. Partitioned convolution solves this by slicing the beginning of the IR into tiny blocks for instant processing while leaving the reverb tail in larger blocks to save CPU. The result is zero-latency convolution: I can play a dry recording of a trumpet or cello through the mathematical model of the measured room and hear it as if it were being performed in that space, in real time.</p>
+<h3>Hardware Setup</h3>
+<p>ISO 3382 specifies an omnidirectional sound source (otherwise known as a dodecahedron speaker) to excite the room uniformly in all directions. I used a standard directional studio monitor, compensating for its focused output pattern with a technique called corner loading, where the speaker was directed into a corner of the room. The acoustic energy reflects and scatters immediately off three surfaces, attempting to replicate the wide 360° dispersion pattern needed to excite room modes evenly.</p>
+<p>The measurement microphone was omnidirectional, placed at a listening position away from walls to minimize proximity effects from strong early reflections.</p>
+<h3>MATLAB</h3>
+<p>A MATLAB script processes the captured IR and outputs acoustic metrics (RT60/C50) across octave bands (125 Hz – 4 kHz).</p>
+<h3>Octave Band Filtering</h3>
+<p>The IR is split into octave bands using 3rd-order Butterworth bandpass filters, with lower and upper cutoffs at fc/√2 and fc×√2 respectively. Butterworth was chosen for its maximally flat magnitude response in the passband as it doesn&#x27;t introduce amplitude errors that would distort the energy calculations downstream.</p>
+<h3>Schroeder Backward Integration</h3>
+<p>For each octave band, the filtered IR is squared to get the energy function, then backward-integrated using Schroeder&#x27;s method (a reversed cumulative sum). This transforms the jagged IR decay into a smooth Energy Decay Curve (EDC) from which regression lines can be fitted.</p>
+<h3>Reverberation Time</h3>
+<p>The script calculates RT60 using the T20 method per ISO 3382. A linear regression is fitted to the Schroeder decay curve between the -5 dB and -25 dB marks, and the resulting slope is extracted to predict a full 60 dB decay. The -5 to -25 dB window is used to avoid both the direct sound arrival (above -5 dB) and the noise floor (below -25 dB) which is critical in a small room where the noise floor is relatively high.</p>
+<h3>Speech Clarity (C50)</h3>
+<p>The C50 Clarity Index is calculated as the ratio of early energy (within the first 50 ms) to late energy (the remaining reverb tail), expressed in dB. The 50 ms boundary is significant as the reflections arriving within that window reinforce the direct sound and help with intelligibility, while reflections arriving later effectively blur the signal. Values above 0 dB indicate the space favors speech clarity, and values below 0 dB indicate a more reverberant character suited to music.</p>
+<h3>Dorm Room Analysis</h3>
+<p>The script generates three figures from the captured impulse response of my dorm room:</p>
+<figure><img src="../images/acoustic-measurement-toolkit/03.webp" alt="Raw Impulse Response" width="1118" height="844" loading="lazy" decoding="async"><figcaption><strong>Raw Impulse Response</strong>: The normalized time-domain waveform of the captured IR.</figcaption></figure>
+<figure><img src="../images/acoustic-measurement-toolkit/04.webp" alt="Energy Decay Analysis (1 kHz Octave Band)" width="1108" height="838" loading="lazy" decoding="async"><figcaption><strong>Energy Decay Analysis (1 kHz Octave Band)</strong>: This figure shows three elements on the same axes. The gray trace is the Energy Time Function, the blue curve is the Schroeder Decay Curve, and the red dashed line is the T20 linear regression, fitted between the -5 dB and -25 dB marks (indicated by green and red dots).</figcaption></figure>
+<figure><img src="../images/acoustic-measurement-toolkit/05.webp" alt="Results Across Octave Bands" width="1110" height="840" loading="lazy" decoding="async"><figcaption><strong>Results Across Octave Bands</strong>: Two subplots presenting the final acoustic metrics. The top subplot is a bar chart of RT60 values across all six octave bands (125 Hz – 4 kHz). The bottom subplot is a bar chart of C50 values across the same bands, with a red dashed line at 0 dB marking the speech clarity threshold.</figcaption></figure>
+<figure class="narrow"><img src="../images/acoustic-measurement-toolkit/06.webp" alt="Acoustic Metric Summary" width="674" height="376" loading="lazy" decoding="async"><figcaption><strong>Acoustic Metric Summary: </strong>The script also outputs a summary table of T20 (extrapolated to RT60) and C50 values across all six octave bands, printed in the MATLAB command window.</figcaption></figure>
+<h2>Result</h2>
+<p>The system successfully captured a clean impulse response of my dorm room and living room, with the MATLAB analysis producing plausible results for a small, furnished space: short reverberation times (around 0.3–0.5 seconds at mid-frequencies) and positive C50 values indicating good speech clarity, which is what you&#x27;d expect from a small room with soft furnishings.</p>
+<p>The real-time auralization component works as intended, as dry recordings convolved with the measured IR produce a sense of the room&#x27;s acoustic character.</p>
+<p>The next phase of the project is a planned measurement of Northeastern&#x27;s Fenway Center performance hall in April 2026, with Dr. Ronald Smith. Fenway Center will present itself as a different acoustic environment with larger volume, longer reverberation, and more complex behavior. It will serve as the system&#x27;s first application to a real performance space.</p>
+<p>Future improvements include additional metrics (EDT, C80, D50) and the use of a true dodecahedron speaker for correct excitation</p>
+<h4>See Related Work:</h4>
+<p><a href="../projects/dsp-acoustic-remediation.html">DSP Acoustic Remediation Tool</a></p>
+<nav class="pager"><a href="mobi-lyze.html"><span>← Previous</span>Mobi-lyze: The Vocal Tract</a><a class="next" href="headphone-tube-amp.html"><span>Next →</span>Headphone Tube Amplifier</a></nav>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
+    <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

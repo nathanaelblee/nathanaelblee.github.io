@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobi-lyze: The Vocal Tract · Nate Lee</title>
+<meta name="description" content="A sonification system for Type 1 diabetes management, developed at the Northeastern Sonification Lab.">
+<meta property="og:title" content="Mobi-lyze: The Vocal Tract · Nate Lee">
+<meta property="og:description" content="A sonification system for Type 1 diabetes management, developed at the Northeastern Sonification Lab.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Nate Lee</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+  <div class="article-head">
+    <a class="back" href="../index.html#work">← All work</a>
+    <h1>Mobi-lyze: The Vocal Tract</h1>
+    <p class="subtitle">A sonification system for Type 1 diabetes management, developed at the Northeastern Sonification Lab.</p>
+    <dl class="facts"><div><dt>Role</dt><dd>Research Assistant &amp; Sound Designer</dd></div><div><dt>Team</dt><dd>Dr. Mike Frengel (Lab Director), Dr. Pedro Cruz, Danny Li</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">MaxMSP</span></div></dd></div><div><dt>Status</dt><dd>Jan 2026 - Apr 2026</dd></div><div><dt>Lab</dt><dd><a href="https://slab.sites.northeastern.edu/">Sonification Lab @ Northeastern</a></dd></div></dl>
+    <figure class="hero-fig"><img src="../images/mobi-lyze/01.webp" alt="Mobi-lyze Max application UI" width="1600" height="869" decoding="async"><figcaption>Mobi-lyze Max application UI</figcaption></figure>
+  </div>
+</div>
+<article class="prose">
+<h2>Background and Problem</h2>
+<p>Type 1 diabetes (T1D) patients using continuous glucose monitors (CGMs) and insulin pumps generate datasets, glucose readings every five minutes, insulin delivery events, carb entries, all uploaded to cloud platforms for clinical review. Every quarter, patients meet with their endocrinologist to review this data and adjust treatment.</p>
+<p>Existing review tools from Tandem and Dexcom are exclusively visual dashboards. Certain clinical patterns can be difficult to spot in charts and tables. Additionally, sustained patient engagement with self-management data is a recognized challenge in diabetes care.</p>
+<p>We asked, could an auditory representation of this data show patterns that visual displays underserve, and could a second sensory modality improve patient and clinician engagement with glycemic history?</p>
+<h2>Method</h2>
+<p>We built Mobi-lyze, a self-contained Max/MSP application that takes in CSV data that is exported from the Tandem Source portal and translates it into sound. The system is designed for use during the quarterly endocrinology consultation, complementing existing visual graphs.</p>
+<p>A custom JavaScript object within Max parses the raw Tandem CSV export and reformats it for Max&#x27;s Collection (coll) object. The main data streams are blood glucose (Dexcom G7 CGM, 5-minute intervals), carbohydrate entries, meal-coverage insulin, correction insulin, and timestamps. The preprocessing stage also derives more values: glycemic trend and insulin-on-board (IOB), which is modeled by a linear two-hour tapering algorithm.</p>
+<p>Mobi-lyze has five selectable sonification themes, each foregrounding different data relationships. The four themes I did not directly build are summarized below; my primary contribution, the <strong>Vocal Tract</strong>, is described in depth in the next section.</p>
+<p><strong>Auditory Graph:</strong> Blood glucose maps to the carrier frequency of an FM-synthesized tone, with spectral inharmonicity increasing outside the clinically acceptable range. Insulin delivery is represented as water sounds shaped by the IOB curve. Carb entries are represented as chewing sounds. An unlogged food event detector flags glucose rises without corresponding carb entries.</p>
+<p><strong>Soundscape:</strong> Expresses the dataset through a natural environment: a day/night ambience cycle (birdsong vs. crickets) for temporal scaffolding, rain intensity for out-of-range glucose, thunder for low insulin, and ocean surf for insulin delivery controlled by IOB.</p>
+<p><strong>Wind Chimes:</strong> Designed for CGM-only / Type 2 diabetes contexts. Granular synthesis applied to wind chime recordings, with glucose mapped to event density and a resonant filter morphing timbre from wooden to metallic as glucose deviates from the target.</p>
+<p><strong>Days of the Week:</strong> A data-reduction theme for weekly comparison. Daily summaries are mapped to musical chords via Sethares&#x27; (1993) tonal dissonance model, so poorly managed days sound dissonant and well-managed days sound consonant.</p>
+<h2>My Primary Contribution: The Vocal Tract Theme</h2>
+<p>My Vocal Tract theme uses formant synthesis, the same mechanism that shapes vowel sounds in speech, as the representational substrate for glycemic data. The core psychoacoustic principle addressed is that humans are uniquely tuned to stress and tension in vocal sounds. We process vowel sounds faster and more categorically than almost any other sound. By using the patient&#x27;s glycemic state (glucose levels) as a vowel morph, the sonification uses the perceptual channel that listeners can parse intuitively.</p>
+<p>The theme implements three data-to-sound mappings: glucose-to-vowel morph, insulin-on-board-to-breathiness, and unlogged food event detection.</p>
+<div class="embed"><iframe src="https://drive.google.com/file/d/1EokWRc2E88iVPVmRuLr4nvU-W5WNrcVG/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Mobi-Lyze Demo &amp; Patch Walkthrough"></iframe></div>
+<p class="embed-caption"><small>Mobi-Lyze Demo &amp; Patch Walkthrough</small></p>
+<figure><img src="../images/mobi-lyze/02.webp" alt="Vocal Tract Patch" width="1292" height="992" loading="lazy" decoding="async"><figcaption>Vocal Tract Patch</figcaption></figure>
+<h3>Mapping 1: Glucose to Vowel Morph</h3>
+<p>The primary mapping interpolates between two vowels, (&quot;Ah&quot;) and (&quot;Ee&quot;), chosen for their maximally different first and second formant structure (F1/F2 distance), based on vowel data from Peterson and Barney (1952). When blood glucose is within the safe range (80–130 mg/dL), the synthesizer produces the open, relaxed &quot;Ah&quot;. As glucose deviates outside that range in either direction, whether rising toward hyperglycemia or dropping toward hypoglycemia, the sound interpolates toward the tight, tense &quot;Ee&quot;.</p>
+<p>The mapping uses a dead-zone design as glucose values between 80–130 mg/dL all produce a morph value of 0.0 (pure &quot;Ah&quot;), so the clinician hears a calm, stable sound during healthy periods. Beyond that range, deviation is normalized to a 0.0–1.0 morph value that drives the interpolation.</p>
+<h3>Signal Chain</h3>
+<p><strong>Exciter stage</strong>: A phasor~ object at 120 Hz generates a sawtooth wave as the vocal exciter, representing the pulse produced by the human vocal folds. The sawtooth is low-pass-filtered through a onepole~ to soften its spectral rolloff, which has a harmonically rich but not overly harsh source signal, which is analogous to the raw buzzy sound at the glottis before the vocal tract shapes it into a vowel.</p>
+<p><strong>Parallel formant filter bank</strong>: The filtered exciter signal is split and fed into five parallel filtergraph~ / biquad~ pairs, each set to bandpass mode. Each pair represents one formant (F1 through F5), with its center frequency, Q factor, and gain interpolated between the /ɑ/ and /i/ targets based on the morph value.</p>
+<p>The formant targets for the two vowels:</p>
+<div class="table-wrap"><table>
+<caption>Vowel Morph Formant Targets: /ɑ/ ("Ah") ↔ /i/ ("Ee")</caption>
+<thead>
+<tr>
+<th rowspan="2">Formant</th>
+<th colspan="2">/ɑ/ "Ah" (In Range)</th>
+<th colspan="2">/i/ "Ee" (Out of Range)</th>
+</tr>
+<tr>
+<th>Cf (Hz)</th>
+<th>Q</th>
+<th>Cf (Hz)</th>
+<th>Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>730</td>
+<td>8.1</td>
+<td>270</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>1,090</td>
+<td>9.9</td>
+<td>2,290</td>
+<td>25.4</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>2,440</td>
+<td>14.4</td>
+<td>3,010</td>
+<td>30.1</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>3,300</td>
+<td>13.2</td>
+<td>3,300</td>
+<td>27.5</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>3,750</td>
+<td>12.5</td>
+<td>3,750</td>
+<td>25.0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each formant&#x27;s parameters are interpolated using expr objects (e.g., expr 730. + (270. - 730.) * $f1) and fed to the filtergraph~. The filtergraph~ objects serve with two purposes: they calculate biquad coefficients for the paired biquad~ filter AND provide live, visual feedback of the filter response curve, which is really useful during development and for demonstrations.</p>
+<p>The five biquad~ outputs are scaled by per-formant gain multipliers and summed to produce the final vowel signal. A slide object smooths the morph parameter to prevent discontinuities that could cause audible clicks or filter instability during rapid glucose states.</p>
+<h3>Mapping 2: Insulin-on-Board to Breathiness</h3>
+<p>A separate mapping layer translates insulin-on-board (IOB),  the quantity of insulin delivered but not yet metabolized, into vocal breathiness. When IOB is high (meaning active insulin stacking), filtered pink noise is blended into the exciter signal through a crossfade with the sawtooth, making the voice sound breathy and strained. This gives the clinician another audible cue through the insulin accumulation without changing the vowel morph.</p>
+<p>The breathiness is capped at approximately 0.35 so that the formant character always remains audible, as the endocrinologist needs to hear where in the vowel space the patient is, even when insulin is active. Full breathiness would mask that information.</p>
+<p>IOB was chosen over raw insulin delivery events because IOB already incorporates the natural tapering decay as insulin is metabolized. This made everything more convenient as it eliminated the need to build separate decay envelopes or track overlapping bolus events. It&#x27;s a continuous float value mapped directly to the crossfade.</p>
+<h3>Mapping 3: Unlogged Food Event Detection ("Ow-Ow")</h3>
+<p>One of the most clinically significant T1D management errors is eating without logging carbohydrates or bolusing insulin. These events are difficult to flag visually because they&#x27;re defined by a glucose rise with no corresponding carb entry.</p>
+<p>I designed a detection system that analyzes the recent glucose trajectory using a ring buffer. If blood glucose rises more than 50 mg/dL within approximately 30 minutes (6 CGM readings at 5-minute intervals) and no carbohydrate entry is logged in that window, the system triggers a rapid oscillating &quot;Ow-Ow-Ow&quot; vocalization, a distinct formant pattern in its own sub-patch with separate vowel targets tuned to the /aʊ/ vowel.</p>
+<div class="table-wrap"><table>
+<caption>Unlogged Food Alarm Formant Targets: /aʊ/ ("Ow")</caption>
+<thead>
+<tr>
+<th rowspan="2">Formant</th>
+<th colspan="2">/a/ (Open)</th>
+<th colspan="2">/ʊ/ (Rounded)</th>
+</tr>
+<tr>
+<th>Cf (Hz)</th>
+<th>Q</th>
+<th>Cf (Hz)</th>
+<th>Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>730</td>
+<td>8.1</td>
+<td>300</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>1,090</td>
+<td>9.9</td>
+<td>870</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>2,440</td>
+<td>14.4</td>
+<td>2,240</td>
+<td>12.0</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>3,300</td>
+<td>13.2</td>
+<td>3,300</td>
+<td>13.2</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>3,750</td>
+<td>12.5</td>
+<td>3,750</td>
+<td>12.5</td>
+</tr>
+</tbody>
+</table></div>
+<p>To prevent false positives after properly logged meals (where glucose naturally rises post-meal), a suppression timer activates whenever a food event IS logged as a 2-hour cooldown (24 CGM readings × 5 minutes = 120 minutes, matching the insulin metabolization window) during which the alarm is suppressed.</p>
+<p>This feature is shared across multiple Mobi-lyze themes. The Auditory Graph theme uses a distinctive echo effect for the same detection, while the Vocal Tract theme uses the &quot;Ow&quot; vocalization.</p>
+<h3>The Four Perceptual States</h3>
+<p>The combination of vowel morph and breathiness creates four distinct auditory signatures, each mapping to a clinically meaningful state:</p>
+<div class="table-wrap"><table>
+<caption>Four Perceptual States: Vowel × Breathiness</caption>
+<thead>
+<tr>
+<th>State</th>
+<th>Vowel</th>
+<th>Breathiness</th>
+<th>Clinical Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relaxed + Clear</td>
+<td>/ɑ/ "Ah"</td>
+<td>Low</td>
+<td>Glucose in range, low IOB - healthy baseline</td>
+</tr>
+<tr>
+<td>Relaxed + Breathy</td>
+<td>/ɑ/ "Ah"</td>
+<td>High</td>
+<td>Glucose in range, high IOB - insulin active, correction working</td>
+</tr>
+<tr>
+<td>Tense + Breathy</td>
+<td>/i/ "Ee"</td>
+<td>High</td>
+<td>Glucose out of range, high IOB - insulin stacking, system correcting</td>
+</tr>
+<tr>
+<td>⚠ Tense + Clear</td>
+<td>/i/ "Ee"</td>
+<td>Low</td>
+<td>Glucose out of range, no active insulin - alarm state</td>
+</tr>
+</tbody>
+</table></div>
+<p>The &quot;tense + clear&quot; combination is the most clinically urgent and dangerous, meaning that the patient is out of range with no active insulin correction. This state is difficult to catch visually but immediately apparent auditorily.</p>
+<h2>Result</h2>
+<p>Mobi-lyze is a working, self-contained system ready for potential clinical field trials. Preliminary design findings suggest the system highlights conditions, particularly unlogged food consumption during elevated glucose, that are underrepresented in existing Tandem and Dexcom visual tools.</p>
+<p>In March 2026, we presented Mobi-lyze twice during Northeastern CAMD&#x27;s (College of Arts, Media and Design) Design Research Week. The project has also been submitted and accepted to ICAD 2026 (International Community for Auditory Display) as an extended abstract. I am a named co-author on the submission.</p>
+<p>Future work includes developing more narrowly targeted sonification themes in collaboration with endocrinologists and conducting structured field trials to evaluate clinical utility and perceptual accessibility across diverse patient and clinician populations.</p>
+<h3>More to Come!</h3>
+<p>Currently working on:</p>
+<p>The Texture Engine: taking a new approach, this sonification produces a continuously evolving audible texture whose perceptual qualities are defined by standard psychoacoustic sound quality metrics.</p>
+<nav class="pager"><a href="dsp-acoustic-remediation.html"><span>← Previous</span>DSP Acoustic Remediation Tool</a><a class="next" href="acoustic-measurement-toolkit.html"><span>Next →</span>Acoustic Measurement &amp; Auralization Toolkit</a></nav>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
+    <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

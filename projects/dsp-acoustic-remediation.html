@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSP Acoustic Remediation Tool · Nate Lee</title>
+<meta name="description" content="Hearing acoustic treatment before it is installed: measure a room, simulate absorption and diffusion, then auralize.">
+<meta property="og:title" content="DSP Acoustic Remediation Tool · Nate Lee">
+<meta property="og:description" content="Hearing acoustic treatment before it is installed: measure a room, simulate absorption and diffusion, then auralize.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Nate Lee</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+  <div class="article-head">
+    <a class="back" href="../index.html#work">← All work</a>
+    <h1>DSP Acoustic Remediation Tool</h1>
+    <p class="subtitle">Hearing acoustic treatment before it is installed: measure a room, simulate absorption and diffusion, then auralize.</p>
+    <dl class="facts"><div><dt>Role</dt><dd>Developer - Final Project for Acoustics &amp; Psychoacoustics</dd></div><div><dt>Advisor</dt><dd>Dr. Huber Ho</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">MATLAB (Signal Processing Toolbox, Audio Toolbox)</span><span class="tag">MaxMSP (HISS Tools)</span></div></dd></div><div><dt>Timeline</dt><dd>Mar 2026 - Apr 2026</dd></div></dl>
+    <figure class="hero-fig"><img src="../images/dsp-acoustic-remediation/01.webp" alt="Untreated vs. Treated Impulse Response" width="852" height="590" decoding="async"><figcaption>Untreated vs. Treated Impulse Response</figcaption></figure>
+  </div>
+</div>
+<article class="prose">
+<h2>Problem</h2>
+<p>After building my <a href="../projects/acoustic-measurement-toolkit.html"><strong>Acoustic Measurement and Auralization Toolkit</strong></a>, which captures and analyzes a room&#x27;s impulse response, my next curiosity was if you could computationally simulate what the room would sound like after installing acoustic treatment without physically installing anything.</p>
+<p>In architectural acoustics consulting, this is a real workflow, as an acoustician measures a space, identifies problems (too much reverberation, poor speech clarity, specular flutter echoes), and propose treatments (absorption panels, diffusers). The challenge is that clients can&#x27;t hear the proposed improvement until it&#x27;s built. I wanted to build something that solves that problem and closes that gap, meaning to measure a room, simulate the treatment in software, and generate an auralization so you can listen to the improvement.</p>
+<h2>Method</h2>
+<p>The whole system is a three-stage MATLAB pipeline: pre-processing, acoustic treatment simulation, and auralization.</p>
+<h4>Stage 1: IR Pre-Processing and Analysis</h4>
+<p>This first script starts by phase-aligning four rotational source measurements to artificially recreate an omnidirectional impulse response, compensating for the directional limitations of a non-ideal (non-omni) sound source. The combined IR is then analyzed per ISO 3382, using Schroeder backward integration across octave bands (125 Hz – 4 kHz) to extract T20 (extrapolated to RT60) and C50, establishing the baseline acoustic metrics of the untreated room.</p>
+<h4>Stage 2: DSP Treatment</h4>
+<p>Next, two acoustic treatment types are modeled:</p>
+<p><strong>Absorption</strong>: The IR is split into three frequency bands using crossover filters. Each band receives an independent exponential decay envelope (e^(-t/τ)), where the time constant τ is tuned to simulate the frequency-dependent absorption characteristics of real treatment materials, which means stronger attenuation at high frequencies (like fiberglass panels), weaker at low frequencies (where bass trapping is harder). The bands are recombined into a treated IR with a shorter, frequency-shaped decay.</p>
+<p><strong>Diffusion</strong>: To simulate diffusion, the script auto-detects specular reflections in the IR using peak detection, then scatters them through Schroeder all-pass filters with prime delay lines. This simulates the effect of diffuser panels, which breaks up focused reflections into a more uniform reverberant field without removing energy.</p>
+<h4>Stage 3: Auralization</h4>
+<p>The treated IR is convolved with anechoic recordings to generate before-and-after auralizations. This allows the listener to hear the room with and without the simulated treatments. This is the same convolution reverb used in the Auralization Toolkit, but now applied to computationally modified IRs rather than raw measured ones.</p>
+<h2>Result</h2>
+<p>The final system produces measurable improvements in both T20 and C50 after simulated treatment, with the absorption model reducing reverberation time and the diffusion model redistributing specular energy. The before/after auralizations make the difference audible, with treated sounds noticeably clearer and less reverberant. This project extends the pipeline I built in the <a href="../projects/acoustic-measurement-toolkit.html"><strong>Auralization Toolkit</strong></a> into a full measurement → analysis → simulation → auralization workflow.</p>
+<p><strong>To see a full summary of the project (figures, plots, data analysis) see my paper below!</strong></p>
+<div class="embed doc"><iframe src="https://docs.google.com/document/d/1WzAUQvCgcPELHvWS6g20E_yb20eaYjJdwkXdHVKyPvs/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Embedded document"></iframe></div>
+<p><a class="btn ghost" href="https://docs.google.com/document/d/1WzAUQvCgcPELHvWS6g20E_yb20eaYjJdwkXdHVKyPvs/view" target="_blank" rel="noopener">Open the full paper ↗</a></p>
+<nav class="pager"><a href="laserfocus.html"><span>← Previous</span>LaserFocus</a><a class="next" href="mobi-lyze.html"><span>Next →</span>Mobi-lyze: The Vocal Tract</a></nav>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
+    <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaserFocus · Nate Lee</title>
+<meta name="description" content="An arcade game that gamifies arithmetic, built at Forge Product Development Lab.">
+<meta property="og:title" content="LaserFocus · Nate Lee">
+<meta property="og:description" content="An arcade game that gamifies arithmetic, built at Forge Product Development Lab.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Nate Lee</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+  <div class="article-head">
+    <a class="back" href="../index.html#work">← All work</a>
+    <h1>LaserFocus</h1>
+    <p class="subtitle">An arcade game that gamifies arithmetic, built at Forge Product Development Lab.</p>
+    <dl class="facts"><div><dt>Role</dt><dd>Hardware Engineer</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">Embedded Systems</span><span class="tag">Hardware Design</span><span class="tag">Enclosure Design</span><span class="tag">Systems Integration</span><span class="tag">Arduino</span><span class="tag">Stepper Motor Control</span><span class="tag">Sensor Interfacing</span><span class="tag">OnShape</span></div></dd></div><div><dt>Status</dt><dd>Jan 2026 - Apr 2026</dd></div></dl>
+    <figure class="hero-fig"><img src="../images/laserfocus/01.webp" alt="LaserFocus image" width="1600" height="994" decoding="async"></figure>
+  </div>
+</div>
+<article class="prose">
+<h2>Problem</h2>
+<p>Forge challenged the student engineering teams to design and prototype a product around a semesterly theme. Ours was &quot;Evolving Education,&quot; where we needed to build something that makes learning more engaging for the younger generation of students. Our idea was Laser Focus, an arcade game that gamifies arithmetic. Players are prompted with math problems on an LCD screen, then use a laser pointer to aim at the correct numbers on a spinning target wheel. The goal was to make doing math feel like playing an arcade game.</p>
+<p>The engineering challenge was integrating a rotating mechanical wheel target, photoresistors for laser detection, game logic, and audiovisual feedback into a singular cohesive product, all on a tight semester timeline with a team of eight.</p>
+<h2>Ideation</h2>
+<figure><img src="../images/laserfocus/02.webp" alt="Early sketch of the number wheel concept from the ideation phase" width="1536" height="1299" loading="lazy" decoding="async"><figcaption>Early sketch of the number wheel concept from the ideation phase</figcaption></figure>
+<h2>My Role</h2>
+<p>A lot of my role was integrating and wiring the electrical components into the game enclosure. The game involves a stepper motor, driver, 20x4 I2C LCD, buzzer, MP3 player module, multiplexer, photoresistors (for the numbers and to act as the arcade buttons), and convex lenses, which are all connected to an Arduino Mega and powered by a 12V supply with a buck converter down to 5V logic.</p>
+<p>The rest of the EE team and I handled wiring each of these components: routing power and signal lines between the buck converter, stepper driver, and Arduino, connecting the multiplexer to the array of photoresistors so the Arduino can assess which number the laser is hitting, wiring the I2C LCD and MP3 module for gameplay display and audio feedback, integrating the arcade interaction photoresistors, and buzzer into the input/output chain.</p>
+<p>The target wheel holds number blocks 0–9, each containing a convex lens on the front face and a photoresistor at the focal point inside the block behind the lens. This design ensures that only a direct laser hit on the correct number focuses enough light onto the sensor to trigger detection. The stepper motor spins the wheel at different speeds and more sporadically based on the selected difficulty level, making the targets harder to hit as the game gets more challenging.</p>
+<p>I helped develop the C++ firmware running on the Arduino Mega, building a finite state machine to manage the full game flow: splash screen, menu navigation, difficulty selection, active gameplay (problem generation, timer, scoring), and game-over states. The FSM handles input from arcade photoresistors (acting as buttons), drives the I2C 20x4 LCD for live problem display and score updates, and triggers an MP3 module for sound effects on gameplay events (correct answer chime, wrong answer buzzer, time-up alarm).</p>
+<p>I designed the front enclosure in OnShape, applying 0.05-inch clearance tolerances and interference-free assembly of the lens, speakers, the LCD display, and other UI components. The design had to accommodate internal wiring routing and access panels for maintenance.</p>
+<figure><img src="../images/laserfocus/03.webp" alt="Full electrical schematic diagram created by the EE team" width="1600" height="1076" loading="lazy" decoding="async"><figcaption>Full electrical schematic diagram created by the EE team</figcaption></figure>
+<figure class="narrow"><img src="../images/laserfocus/04.webp" alt="CAD model of the full game enclosure" width="1090" height="1362" loading="lazy" decoding="async"><figcaption>CAD model of the full game enclosure</figcaption></figure>
+<figure><img src="../images/laserfocus/05.webp" alt="CAD model of the front housing (LCD, Lens, and Speakers)" width="1600" height="634" loading="lazy" decoding="async"><figcaption>CAD model of the front housing (LCD, Lens, and Speakers)</figcaption></figure>
+<figure><img src="../images/laserfocus/06.webp" alt="CAD model of the number block" width="748" height="714" loading="lazy" decoding="async"><figcaption>CAD model of the number block</figcaption></figure>
+<h2>The Final Product</h2>
+<figure class="narrow"><img src="../images/laserfocus/07.webp" alt="LaserFocus image" width="1536" height="1810" loading="lazy" decoding="async"></figure>
+<h2>Results</h2>
+<p>Laser Focus is a fully functional arcade game that combines mechanical, electrical, and software into a singular cohesive product. Working on an 8-person team strengthened my skills in cross-disciplinary collaboration, hardware integration and interfacing, rapid prototyping, and 3D modeling. I&#x27;m grateful to my teammates for making this a great experience.</p>
+<nav class="pager"><a class="next" href="dsp-acoustic-remediation.html"><span>Next →</span>DSP Acoustic Remediation Tool</a></nav>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
+    <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
