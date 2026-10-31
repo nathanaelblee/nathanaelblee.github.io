@@ -10,26 +10,30 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=4">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500&display=swap">
+<meta name="theme-color" content="#f2f1ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12100f" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../assets/tokens.css?v=2">
+<link rel="stylesheet" href="../assets/site.css?v=7">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="../index.html">Nate Lee</a>
-    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
-  </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap">
+  <nav class="site-nav" aria-label="Main">
+    <a class="wordmark" href="../index.html">Nate Lee</a>
+    <ul><li><a href="../index.html#work" aria-current="page">Work</a></li><li><a href="../index.html#experience">Experience</a></li><li><a href="../about.html">About</a></li><li><a href="../resume.html">Resume</a></li></ul>
+  </nav>
 </header>
-<main>
+<main id="main">
 <div class="wrap">
   <div class="article-head">
-    <a class="back" href="../index.html#work">← All work</a>
+    <a class="back" href="../index.html#work"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4 3 8l4 4"/></svg>All work</a>
+    <hr class="rule">
     <h1>LaserFocus</h1>
     <p class="subtitle">An arcade game that gamifies arithmetic, built at Forge Product Development Lab.</p>
-    <dl class="facts"><div><dt>Role</dt><dd>Hardware Engineer</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">Embedded Systems</span><span class="tag">Hardware Design</span><span class="tag">Enclosure Design</span><span class="tag">Systems Integration</span><span class="tag">Arduino</span><span class="tag">Stepper Motor Control</span><span class="tag">Sensor Interfacing</span><span class="tag">OnShape</span></div></dd></div><div><dt>Status</dt><dd>Jan 2026 - Apr 2026</dd></div></dl>
-    <figure class="hero-fig"><img src="../images/laserfocus/01.webp" alt="LaserFocus image" width="1600" height="994" decoding="async"></figure>
+    <dl class="facts"><div><dt>Role</dt><dd>Hardware Engineer</dd></div><div><dt>Tools</dt><dd>Embedded Systems, Hardware Design, Enclosure Design, Systems Integration, Arduino, Stepper Motor Control, Sensor Interfacing, OnShape</dd></div><div><dt>Timeline</dt><dd>Jan 2026 – Apr 2026</dd></div></dl>
+    <figure class="plinth reveal"><div class="mat inset"><img src="../images/laserfocus/01.webp" alt="The LaserFocus arcade game with its number wheel and laser" width="1600" height="994" decoding="async" fetchpriority="high"></div></figure>
   </div>
-</div>
 <article class="prose">
 <h2>Problem</h2>
 <p>Forge challenged the student engineering teams to design and prototype a product around a semesterly theme. Ours was &quot;Evolving Education,&quot; where we needed to build something that makes learning more engaging for the younger generation of students. Our idea was Laser Focus, an arcade game that gamifies arithmetic. Players are prompted with math problems on an LCD screen, then use a laser pointer to aim at the correct numbers on a spinning target wheel. The goal was to make doing math feel like playing an arcade game.</p>
@@ -50,15 +54,16 @@
 <figure class="narrow"><img src="../images/laserfocus/07.webp" alt="LaserFocus image" width="1536" height="1810" loading="lazy" decoding="async"></figure>
 <h2>Results</h2>
 <p>Laser Focus is a fully functional arcade game that combines mechanical, electrical, and software into a singular cohesive product. Working on an 8-person team strengthened my skills in cross-disciplinary collaboration, hardware integration and interfacing, rapid prototyping, and 3D modeling. I&#x27;m grateful to my teammates for making this a great experience.</p>
-<nav class="pager"><a class="next" href="dsp-acoustic-remediation.html"><span>Next →</span>DSP Acoustic Remediation Tool</a></nav>
+<nav class="pager"><a class="next" href="dsp-acoustic-remediation.html"><span>Next</span>DSP Acoustic Remediation Tool</a></nav>
 </article>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="wrap">
+<footer class="wrap page-end">
+  <div class="site-footer">
     <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
     <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
   </div>
 </footer>
-<script src="../assets/main.js?v=4"></script>
+<script src="../assets/site.js?v=1"></script>
 </body>
 </html>

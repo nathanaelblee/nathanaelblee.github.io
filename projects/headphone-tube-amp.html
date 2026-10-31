@@ -10,32 +10,36 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=4">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500&display=swap">
+<meta name="theme-color" content="#f2f1ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12100f" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../assets/tokens.css?v=2">
+<link rel="stylesheet" href="../assets/site.css?v=7">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="../index.html">Nate Lee</a>
-    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
-  </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap">
+  <nav class="site-nav" aria-label="Main">
+    <a class="wordmark" href="../index.html">Nate Lee</a>
+    <ul><li><a href="../index.html#work" aria-current="page">Work</a></li><li><a href="../index.html#experience">Experience</a></li><li><a href="../about.html">About</a></li><li><a href="../resume.html">Resume</a></li></ul>
+  </nav>
 </header>
-<main>
+<main id="main">
 <div class="wrap">
   <div class="article-head">
-    <a class="back" href="../index.html#work">← All work</a>
+    <a class="back" href="../index.html#work"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4 3 8l4 4"/></svg>All work</a>
+    <hr class="rule">
     <h1>Headphone Tube Amplifier</h1>
     <p class="subtitle">A single-ended OTL headphone amp with a 12AU7 and 6080, wired point-to-point.</p>
-    <dl class="facts"><div><dt>Role</dt><dd>Solo Build</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">Soldering Iron</span><span class="tag">Multimeter</span><span class="tag">Wire Strippers</span><span class="tag">Point-to-Point Wiring</span></div></dd></div><div><dt>Timeline</dt><dd>Nov 2025 - Jan 2026</dd></div></dl>
-    <figure class="hero-fig"><img src="../images/headphone-tube-amp/01.webp" alt="Headphone Tube Amplifier image" width="1446" height="1090" decoding="async"></figure>
+    <dl class="facts"><div><dt>Role</dt><dd>Solo Build</dd></div><div><dt>Tools</dt><dd>Soldering Iron, Multimeter, Wire Strippers, Point-to-Point Wiring</dd></div><div><dt>Timeline</dt><dd>Nov 2025 – Jan 2026</dd></div></dl>
+    <figure class="plinth reveal"><div class="mat"><img src="../images/headphone-tube-amp/01.webp" alt="Bottlehead headphone tube amplifier kit" width="1446" height="1090" decoding="async" fetchpriority="high"></div><figcaption><span class="credit">Product photo: Bottlehead</span></figcaption></figure>
   </div>
-</div>
 <article class="prose">
 <h2>Overview</h2>
 <p>This project was a single-ended Output Transformerless (OTL) headphone amplifier built from a kit (Bottlehead), using a 12AU7 dual-triode input tube and a 6080 dual-triode output tube. OTL designs eliminate the output transformer found in most tube amps, coupling the output tube directly to the headphone load, which results in a simpler signal path and a different and more characteristic sound defined by the tube characteristics rather than transformer coloration.</p>
 <p>Building this amplifier gave experience and understanding of analog audio signal paths from power supply through amplification to output, hands-on high-voltage soldering, and systematic circuit verification.</p>
-<figure><img src="../images/headphone-tube-amp/02.webp" alt="Schematic of Power Supply" width="1159" height="658" loading="lazy" decoding="async"><figcaption>Schematic of Power Supply</figcaption></figure>
-<figure><img src="../images/headphone-tube-amp/03.webp" alt="Schematic of Right Channel" width="1256" height="714" loading="lazy" decoding="async"><figcaption>Schematic of Right Channel</figcaption></figure>
+<figure><img src="../images/headphone-tube-amp/02.webp" alt="Schematic of Power Supply" width="1159" height="658" loading="lazy" decoding="async"><figcaption>Schematic of Power Supply<span class="credit">Schematic: Bottlehead</span></figcaption></figure>
+<figure><img src="../images/headphone-tube-amp/03.webp" alt="Schematic of Right Channel" width="1256" height="714" loading="lazy" decoding="async"><figcaption>Schematic of Right Channel<span class="credit">Schematic: Bottlehead</span></figcaption></figure>
 <h2>The Build</h2>
 <h3>Power Supply</h3>
 <p>The power supply converts 120VAC power through a PT-10 power transformer, rectified by four UF4007 diodes in a full-bridge configuration to produce the B+ high-voltage rail (~170VDC). A three-stage C-R-C filter smooths the rectified DC, reducing ripple before it reaches the latter of the audio circuit. A 270KΩ 1W resistor discharges the capacitors when the amp is powered off.</p>
@@ -48,15 +52,16 @@
 <p>Before powering on, every connection was verified with a multimeter, checking for continuity on intended paths. After powering-up, DC voltages were measured at key nodes to confirm that the tubes were biasing correctly and the power supply was delivering stable DC.</p>
 <h2>Results</h2>
 <p>The amplifier works and sounds great. It has the signature warm tube color that I was looking for. As for my choice of headphones, I paired the amp with the Sennheiser HD 650s to elevate the sound further. Building it from individual components gave me a deeper understanding of how each stage in an analog audio signal chain contributes to the final output. It also helped me build practical skills in high-voltage soldering safety, point-to-point wiring, and circuit debugging with a multimeter.</p>
-<nav class="pager"><a href="acoustic-measurement-toolkit.html"><span>← Previous</span>Acoustic Measurement &amp; Auralization Toolkit</a><a class="next" href="orchestral-chessboard.html"><span>Next →</span>SolidWorks Orchestral Chessboard</a></nav>
+<nav class="pager"><a href="acoustic-measurement-toolkit.html"><span>Previous</span>Acoustic Measurement &amp; Auralization Toolkit</a><a class="next" href="orchestral-chessboard.html"><span>Next</span>SolidWorks Orchestral Chessboard</a></nav>
 </article>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="wrap">
+<footer class="wrap page-end">
+  <div class="site-footer">
     <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
     <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
   </div>
 </footer>
-<script src="../assets/main.js?v=4"></script>
+<script src="../assets/site.js?v=1"></script>
 </body>
 </html>

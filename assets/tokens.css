@@ -1,0 +1,95 @@
+/* Nate Lee portfolio: design tokens. Source of truth: portfolio-design/style-guide.html. Pages use these tokens, never new values. */
+:root {
+  /* Color: light theme ("gallery", daylight screening) */
+  --color-stage: #f2f1ee;          /* page ground */
+  --color-stage-raised: #e9e7e4;   /* alternate section, input fill */
+  --color-plinth: #ffffff;         /* the one bright surface: photos sit on it as shot */
+  --color-ink: #1c1916;            /* headings, body, primary button fill */
+  --color-ink-soft: #5a5652;       /* secondary text, captions, meta (6.4:1) */
+  --color-on-plinth: #1c1916;      /* text placed on a plinth, both themes */
+  --color-on-plinth-soft: #5a5652;
+  --color-line: #d8d5d2;           /* hairlines, dividers (decorative) */
+  --color-line-strong: #898582;    /* input borders, control edges (3.2:1) */
+  --color-walnut: #774d2f;         /* material line only: rules, underlines, focus */
+  --color-error: #b33830;          /* form errors only */
+  --color-selection: #e8cbb4;      /* text selection */
+
+  /* Type */
+  --font-sans: "Albert Sans", "Helvetica Neue", Arial, sans-serif;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;            /* ceiling: nothing is ever bold */
+
+  --text-display: clamp(2.75rem, 1.6rem + 4.2vw, 5rem);       /* hero name */
+  --text-display-sub: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem); /* tagline */
+  --text-h1: clamp(2.25rem, 1.5rem + 2.8vw, 3.5rem);          /* page title */
+  --text-h2: clamp(1.625rem, 1.3rem + 1.1vw, 2.125rem);       /* section */
+  --text-h3: 1.25rem;                                          /* subsection */
+  --text-lede: 1.1875rem;                                      /* intro paragraph */
+  --text-body: 1.0625rem;                                      /* 17px reading text */
+  --text-small: 0.875rem;                                      /* captions, meta */
+  --text-label: 0.9375rem;                                     /* buttons, nav, form labels */
+
+  --leading-tight: 1.02;
+  --leading-heading: 1.15;
+  --leading-body: 1.6;
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.01em;
+  --tracking-label: 0.005em;
+  --measure: 54ch;          /* ≈ 72–76 characters of Albert Sans */
+
+  /* Space: 4px base */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px; --space-5: 24px;
+  --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --section: clamp(64px, 8vw, 128px);
+  --container: 1200px;
+
+  /* Shape */
+  --radius-sm: 6px;      /* small inner elements */
+  --radius-md: 12px;     /* plinths, cards, inputs */
+  --radius-pill: 999px;  /* buttons only */
+  --border-hair: 1px;
+  --border-rule: 2px;    /* walnut rule, active nav underline, focus ring */
+
+  /* Depth: the lit hero plinth is the only lifted surface; other mats lift on hover */
+  --shadow-plinth: 0 1px 2px rgb(28 25 22 / 0.05), 0 18px 40px -20px rgb(28 25 22 / 0.28);
+
+  /* Controls */
+  --control-height: 44px;
+  --control-height-sm: 36px;
+  --focus-ring: 0 0 0 2px var(--color-stage), 0 0 0 4px var(--color-walnut);
+
+  /* Motion: one authored moment (the object coming into light) */
+  --dur-fast: 150ms;
+  --dur-reveal: 900ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark theme ("stage", evening) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-stage: #12100f;
+    --color-stage-raised: #1b1917;
+    --color-ink: #ebe9e6;
+    --color-ink-soft: #afaca8;
+    --color-line: #312e2c;
+    --color-line-strong: #6c6966;
+    --color-walnut: #c1946e;
+    --color-error: #ef7f72;
+    --color-selection: #553c2a;
+    --shadow-plinth: 0 1px 2px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.75);
+  }
+}
+:root[data-theme="dark"] {
+  --color-stage: #12100f;
+  --color-stage-raised: #1b1917;
+  --color-ink: #ebe9e6;
+  --color-ink-soft: #afaca8;
+  --color-line: #312e2c;
+  --color-line-strong: #6c6966;
+  --color-walnut: #c1946e;
+  --color-error: #ef7f72;
+  --color-selection: #553c2a;
+  --shadow-plinth: 0 1px 2px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.75);
+}

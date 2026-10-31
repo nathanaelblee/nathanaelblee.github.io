@@ -4,32 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Acoustic Measurement & Auralization Toolkit · Nate Lee</title>
-<meta name="description" content="A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.">
+<meta name="description" content="A room impulse response pipeline built end to end: sweep, capture, deconvolve, analyze, and listen.">
 <meta property="og:title" content="Acoustic Measurement & Auralization Toolkit · Nate Lee">
-<meta property="og:description" content="A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.">
+<meta property="og:description" content="A room impulse response pipeline built end to end: sweep, capture, deconvolve, analyze, and listen.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=4">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500&display=swap">
+<meta name="theme-color" content="#f2f1ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12100f" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../assets/tokens.css?v=2">
+<link rel="stylesheet" href="../assets/site.css?v=7">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="../index.html">Nate Lee</a>
-    <nav class="nav" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../index.html#experience">Experience</a><a href="../about.html">About</a><a href="../resume.html">Resume</a></nav>
-  </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap">
+  <nav class="site-nav" aria-label="Main">
+    <a class="wordmark" href="../index.html">Nate Lee</a>
+    <ul><li><a href="../index.html#work" aria-current="page">Work</a></li><li><a href="../index.html#experience">Experience</a></li><li><a href="../about.html">About</a></li><li><a href="../resume.html">Resume</a></li></ul>
+  </nav>
 </header>
-<main>
+<main id="main">
 <div class="wrap">
   <div class="article-head">
-    <a class="back" href="../index.html#work">← All work</a>
+    <a class="back" href="../index.html#work"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4 3 8l4 4"/></svg>All work</a>
+    <hr class="rule">
     <h1>Acoustic Measurement &amp; Auralization Toolkit</h1>
-    <p class="subtitle">A room impulse response pipeline built from scratch: sweep, capture, deconvolve, analyze, and listen.</p>
-    <dl class="facts"><div><dt>Role</dt><dd>Developer - Final Project for Computer Music Fundamentals</dd></div><div><dt>Advisor</dt><dd>Dr. Ronald Smith</dd></div><div><dt>Tools</dt><dd><div class="tags"><span class="tag">MaxMSP (HISS Tools)</span><span class="tag">MATLAB</span></div></dd></div><div><dt>Timeline</dt><dd>Nov 2025 - Jan 2026</dd></div></dl>
-    <figure class="hero-fig"><img src="../images/acoustic-measurement-toolkit/01.webp" alt="IR Capture UI" width="1600" height="1232" decoding="async"><figcaption>IR Capture UI</figcaption></figure>
+    <p class="subtitle">A room impulse response pipeline built end to end: sweep, capture, deconvolve, analyze, and listen.</p>
+    <dl class="facts"><div><dt>Role</dt><dd>Developer - Final Project for Computer Music Fundamentals</dd></div><div><dt>Advisor</dt><dd>Dr. Ronald Smith</dd></div><div><dt>Tools</dt><dd>MaxMSP (HISS Tools), MATLAB</dd></div><div><dt>Timeline</dt><dd>Nov 2025 – Jan 2026</dd></div></dl>
+    <figure class="plinth reveal"><div class="mat inset"><img src="../images/acoustic-measurement-toolkit/01.webp" alt="IR Capture UI" width="1600" height="1232" decoding="async" fetchpriority="high"></div><figcaption>IR Capture UI</figcaption></figure>
   </div>
-</div>
 <article class="prose">
 <h2>Problem</h2>
 <p>Architectural acoustics relies on the ability to measure how a room responds to sound. The Room Impulse Response (IR), the acoustic fingerprint of a space, tells us everything about a room&#x27;s reflections, absorption, and decay. From the IR, we can derive metrics like reverberation time and speech clarity that determine whether a room is suitable for concerts, lectures, or conversation.</p>
@@ -71,17 +75,18 @@
 <p>The real-time auralization component works as intended, as dry recordings convolved with the measured IR produce a sense of the room&#x27;s acoustic character.</p>
 <p>The next phase of the project is a planned measurement of Northeastern&#x27;s Fenway Center performance hall in April 2026, with Dr. Ronald Smith. Fenway Center will present itself as a different acoustic environment with larger volume, longer reverberation, and more complex behavior. It will serve as the system&#x27;s first application to a real performance space.</p>
 <p>Future improvements include additional metrics (EDT, C80, D50) and the use of a true dodecahedron speaker for correct excitation</p>
-<h4>See Related Work:</h4>
+<h3>See Related Work:</h3>
 <p><a href="../projects/dsp-acoustic-remediation.html">DSP Acoustic Remediation Tool</a></p>
-<nav class="pager"><a href="mobi-lyze.html"><span>← Previous</span>Mobi-lyze: The Vocal Tract</a><a class="next" href="headphone-tube-amp.html"><span>Next →</span>Headphone Tube Amplifier</a></nav>
+<nav class="pager"><a href="mobi-lyze.html"><span>Previous</span>Mobi-lyze: The Vocal Tract</a><a class="next" href="headphone-tube-amp.html"><span>Next</span>Headphone Tube Amplifier</a></nav>
 </article>
+</div>
 </main>
-<footer class="site-footer">
-  <div class="wrap">
+<footer class="wrap page-end">
+  <div class="site-footer">
     <span>Nathanael Lee · Electrical Engineering &amp; Music Technology · Northeastern University · Brooklyn, NY &amp; Boston, MA</span>
     <span><a href="mailto:nathanael.b.lee@gmail.com">Email</a> · <a href="https://www.linkedin.com/in/nate-lee-/" target="_blank" rel="noopener">LinkedIn</a></span>
   </div>
 </footer>
-<script src="../assets/main.js?v=4"></script>
+<script src="../assets/site.js?v=1"></script>
 </body>
 </html>
