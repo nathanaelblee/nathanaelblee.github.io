@@ -172,7 +172,6 @@ footer.page-end { margin-top: var(--section); }
 
 /* Reading column: left-aligned with the header; figures, tables and embeds may run wider */
 .prose { padding-bottom: var(--space-4); }
-.prose > * { max-width: var(--measure); }
 .prose > figure, .prose > .gallery, .prose > .table-wrap, .prose > .embed { max-width: 880px; margin: var(--space-7) 0; }
 .prose h2 { font-size: var(--text-h2); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); margin: var(--space-8) 0 var(--space-4); }
 .prose > h2:first-child { margin-top: var(--space-5); }
@@ -187,7 +186,7 @@ footer.page-end { margin-top: var(--section); }
 /* Figures sit on the plinth, as shot */
 .prose figure img { width: 100%; background: var(--color-plinth); padding: clamp(8px, 2%, 20px); border-radius: var(--radius-md); box-shadow: 0 0 0 var(--border-hair) var(--color-line); cursor: zoom-in; }
 .prose figure.narrow { max-width: 480px; }
-.prose figcaption { font-size: var(--text-small); color: var(--color-ink-soft); margin-top: var(--space-3); line-height: 1.5; max-width: var(--measure); }
+.prose figcaption { font-size: var(--text-small); color: var(--color-ink-soft); margin-top: var(--space-3); line-height: 1.5; }
 .prose figcaption .credit { display: block; }
 .gallery { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--space-4); }
 .gallery figure { margin: 0; }
